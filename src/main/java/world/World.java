@@ -20,6 +20,15 @@ public class World {
         organisms.add(organism);
     }
 
+    public Organism getOrganismAt(int x, int y) {
+        for (Organism o : organisms) {
+            if (o.getPositionX() == x && o.getPositionY() == y) {
+                return o;
+            }
+        }
+        return null;
+    }
+
     public void turn() {
 
     }
