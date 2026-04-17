@@ -38,6 +38,21 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    private JPanel createLegendItem(String name, Color color) {
+        JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 2));
+
+        //colored squares
+        JPanel colorBox = new JPanel();
+        colorBox.setPreferredSize(new Dimension(15, 15));
+        colorBox.setBackground(color);
+        colorBox.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Obramowanie kwadracika
+
+        itemPanel.add(colorBox);
+        itemPanel.add(new JLabel("- " + name));
+
+        return itemPanel;
+    }
+
     private JPanel createSidePanel() {
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
@@ -49,10 +64,13 @@ public class MainFrame extends JFrame {
         sidePanel.add(new JSeparator());
 
         //legend
-        sidePanel.add(new JLabel("<html><br><b>Legenda:</b><br>" +
-                "<font color='red'>W</font> - Wilk<br>" +
-                "<font color='blue'>O</font> - Owca<br>" +
-                "<font color='green'>T</font> - Trawa</html>"));
+        JLabel title = new JLabel("Legenda:");
+        title.setFont(new Font("Arial", Font.BOLD, 14));
+        sidePanel.add(title);
+
+        //adding organism to legends
+        sidePanel.add(createLegendItem("Wilk", Color.DARK_GRAY));
+        sidePanel.add(createLegendItem("Owca", Color.LIGHT_GRAY));
 
         sidePanel.add(new JSeparator());
 

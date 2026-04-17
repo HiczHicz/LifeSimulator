@@ -1,3 +1,4 @@
+import organism.Sheep;
 import organism.Wolf;
 import ui.MainFrame;
 import world.World;
@@ -11,6 +12,7 @@ public class Main {
             World world = new World(20, 20);
 
             world.addOrganism(new Wolf(1, 2, world));
+            world.addOrganism(new Sheep(3, 4, world));
 
             new MainFrame(world);
 
