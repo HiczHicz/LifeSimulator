@@ -30,7 +30,9 @@ public class World {
     }
 
     public void turn() {
-
+        for (Organism o : organisms) {
+            o.action();
+        }
     }
 
     public void drawWorld() {

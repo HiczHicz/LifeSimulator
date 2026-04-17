@@ -11,6 +11,14 @@ public abstract class Organism {
     protected int positionY;
     protected World world;
 
+    public Organism(int strength, int initiative, int positionX, int positionY, World world) {
+        this.strength = strength;
+        this.initiative = initiative;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.world = world;
+    }
+
     public int getPositionX() {
         return positionX;
     }
@@ -28,7 +36,6 @@ public abstract class Organism {
     }
 
     public void draw(Graphics g, int x, int y, int size) {
-
     }
 
 }

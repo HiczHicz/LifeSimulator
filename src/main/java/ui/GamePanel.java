@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
                 //get organism
                 Organism organism = world.getOrganismAt(x, y);
                 if (organism != null) {
-                    organism.draw(g, px, py, cellSize); // Wywołanie rysowania organizmu [cite: 39]
+                    organism.draw(g, px, py, cellSize); // drawing organism
                 }
             }
         }

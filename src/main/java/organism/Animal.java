@@ -1,6 +1,12 @@
 package organism;
 
+import world.World;
+
 public abstract class Animal extends Organism {
+
+    public Animal(int strength, int initiative, int positionX, int positionY, World world) {
+        super(strength, initiative, positionX, positionY, world);
+    }
 
     private void move() {
         int xVector;
