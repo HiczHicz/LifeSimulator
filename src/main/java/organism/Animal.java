@@ -1,5 +1,6 @@
 package organism;
 
+import logger.Logger;
 import world.World;
 
 public abstract class Animal extends Organism {
@@ -19,6 +20,14 @@ public abstract class Animal extends Organism {
 
         positionX += xVector;
         positionY += yVector;
+
+        if (world.getLogger() != null) {
+            world.getLogger().log(
+                    Logger.Level.MOVE,
+                    this.toString() + " moved from (" + xVector + "," + yVector + ")"
+            );
+        }
+
     }
 
     @Override

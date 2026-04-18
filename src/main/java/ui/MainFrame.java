@@ -1,6 +1,7 @@
 package ui;
 
 import logger.Logger;
+import logger.LoggerComposite;
 import logger.LoggerGame;
 import world.World;
 
@@ -14,8 +15,19 @@ public class MainFrame extends JFrame {
 
     public MainFrame(World world) {
         this.world = world;
+        
+        this.logArea = new JTextArea(10, 20);
+        this.logArea.setEditable(false);
+
         Logger gameLogger = new LoggerGame(this.logArea);
         world.setLogger(gameLogger);
+
+
+        // 2. Pobranie kompozytu ze świata i dodanie Loggera GUI
+        if (world.getLogger() instanceof LoggerComposite composite) {
+            // Od tego momentu każdy log trafi i do pliku, i do okna
+            composite.addLogger(new LoggerGame(this.logArea));
+        }
 
         //window config
         setTitle("Symulator życia");

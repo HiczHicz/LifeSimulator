@@ -1,4 +1,5 @@
 import logger.Logger;
+import logger.LoggerComposite;
 import logger.LoggerFile;
 import organism.Sheep;
 import organism.Wolf;
@@ -11,21 +12,25 @@ public class Main {
     public static void main(String[] args) {
         //handling problems with threads
         SwingUtilities.invokeLater(() -> {
-            Logger fileLogger = new LoggerFile("systemlog.txt");
 
-            World world = new World(20, 20);
+            LoggerComposite multiLogger = new LoggerComposite();
 
-            world.setLogger(fileLogger);
+            //file logger
+            multiLogger.addLogger(new LoggerFile("system_log.txt"));
 
-            fileLogger.log(Logger.Level.INFO, "World created: " + world.getWidth() + "x" + world.getHeight());
+            //making logger composite
+            World world = new World(20, 20); // [cite: 5]
+            world.setLogger(multiLogger);
+
+            //
+            multiLogger.log(Logger.Level.INFO, "Aplikacja uruchomiona");
 
             world.addOrganism(new Wolf(1, 2, world));
             world.addOrganism(new Sheep(3, 4, world));
 
             new MainFrame(world);
 
-            fileLogger.flush();
-
+            multiLogger.flush();
         });
     }
 }
