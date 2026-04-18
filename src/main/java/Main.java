@@ -19,11 +19,11 @@ public class Main {
             multiLogger.addLogger(new LoggerFile("system_log.txt"));
 
             //making logger composite
-            World world = new World(20, 20); // [cite: 5]
+            World world = new World(20, 20);
             world.setLogger(multiLogger);
 
             //
-            multiLogger.log(Logger.Level.INFO, "Aplikacja uruchomiona");
+            multiLogger.log(Logger.Level.INFO, "World created successfully");
 
             world.addOrganism(new Wolf(1, 2, world));
             world.addOrganism(new Sheep(3, 4, world));

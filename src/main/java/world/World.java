@@ -12,6 +12,7 @@ public class World {
     private int height;
     private List<Organism> organisms = new ArrayList<>();
     private Logger logger;
+    private int turnCounter = 0;
 
 
     public World(int width, int height) {
@@ -46,6 +47,11 @@ public class World {
     }
 
     public void turn() {
+        turnCounter += 1;
+        if (this.logger != null) {
+            this.logger.log(Logger.Level.INFO, "---Turn " + turnCounter + "---");
+        }
+
         for (Organism o : organisms) {
             o.action();
         }
