@@ -1,6 +1,5 @@
 package ui;
 
-import logger.Logger;
 import logger.LoggerComposite;
 import logger.LoggerGame;
 import world.World;
@@ -15,30 +14,36 @@ public class MainFrame extends JFrame {
 
     public MainFrame(World world) {
         this.world = world;
-        
+
+        //initializing log area
         this.logArea = new JTextArea(10, 20);
         this.logArea.setEditable(false);
 
-        Logger gameLogger = new LoggerGame(this.logArea);
-        world.setLogger(gameLogger);
+        //building UI
+        setupUI();
 
-
-        // 2. Pobranie kompozytu ze świata i dodanie Loggera GUI
-        if (world.getLogger() instanceof LoggerComposite composite) {
-            // Od tego momentu każdy log trafi i do pliku, i do okna
-            composite.addLogger(new LoggerGame(this.logArea));
-        }
+        //logger config
+        setupLogger();
 
         //window config
         setTitle("Symulator życia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    //UI setup - set Layout, buttons
+    private void setupUI() {
         setLayout(new BorderLayout());
 
         //turn button - top
         JButton nextTurnBtn = new JButton("Nowa tura");
         nextTurnBtn.addActionListener(e -> {
             world.turn();
-            world.getLogger().flush();
+            if (world.getLogger() != null) {
+                world.getLogger().flush();
+            }
             refreshUI();
         });
         add(nextTurnBtn, BorderLayout.NORTH);
@@ -47,28 +52,34 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel(world);
         add(gamePanel, BorderLayout.CENTER);
 
-        //info&legend positioning
         add(createSidePanel(), BorderLayout.EAST);
-
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
+    //Logger setuop
+    private void setupLogger() {
+        //checking if there is  log composite from Main class
+        if (world.getLogger() instanceof LoggerComposite composite) {
+            composite.addLogger(new LoggerGame(this.logArea));
+        } else {
+            //if no log composite in main
+            world.setLogger(new LoggerGame(this.logArea));
+        }
+    }
+
+    //legend setup
     private JPanel createLegendItem(String name, Color color) {
         JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 2));
-
-        //colored squares
         JPanel colorBox = new JPanel();
         colorBox.setPreferredSize(new Dimension(15, 15));
         colorBox.setBackground(color);
-        colorBox.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Obramowanie kwadracika
+        colorBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         itemPanel.add(colorBox);
         itemPanel.add(new JLabel("- " + name));
 
         return itemPanel;
     }
+
 
     private JPanel createSidePanel() {
         JPanel sidePanel = new JPanel();
@@ -77,7 +88,7 @@ public class MainFrame extends JFrame {
         sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         //creator
-        sidePanel.add(new JLabel("Autor: \thiczhicz"));
+        sidePanel.add(new JLabel("Autor: hiczhicz"));
         sidePanel.add(new JSeparator());
 
         //legend
@@ -91,20 +102,16 @@ public class MainFrame extends JFrame {
 
         sidePanel.add(new JSeparator());
 
-        //logs of whats happening on screen
-        logArea = new JTextArea(10, 20);
-        logArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(logArea);
+        //using existing logArea
         sidePanel.add(new JLabel("Podsumowanie tury:"));
+        JScrollPane scrollPane = new JScrollPane(logArea);
         sidePanel.add(scrollPane);
-
 
         return sidePanel;
     }
 
+
     public void refreshUI() {
         gamePanel.repaint();
-        //update logs
-        logArea.setText("Nowa tura wykonana...");
     }
 }
