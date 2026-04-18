@@ -11,6 +11,7 @@ public class LoggerFile extends Logger {
         this.fileName = fileName;
     }
 
+    //flushing the log to desired path
     @Override
     public void flush() {
         try (PrintWriter out = new PrintWriter(LOGS_PATH + this.fileName)) {

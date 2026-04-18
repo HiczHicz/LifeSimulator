@@ -11,6 +11,7 @@ public class World {
     private int width;
     private int height;
     private List<Organism> organisms = new ArrayList<>();
+    private Logger logger;
 
 
     public World(int width, int height) {
@@ -18,10 +19,21 @@ public class World {
         this.height = height;
     }
 
-    public void addOrganism(Organism organism, Logger logger) {
-        organisms.add(organism);
-        logger.log(Logger.Level.INFO, "Organism succesfully added: " + organism.toString());
+    public Logger getLogger() {
+        return logger;
+    }
 
+    //logger
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    //handling organism
+    public void addOrganism(Organism organism) {
+        organisms.add(organism);
+        if (this.logger != null) {
+            this.logger.log(Logger.Level.INFO, "Organism added: " + organism.toString());
+        }
     }
 
     public Organism getOrganismAt(int x, int y) {

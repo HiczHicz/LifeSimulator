@@ -18,8 +18,8 @@ public class Sheep extends Animal {
         //g.setColor(Color.BLACK);
     }
 
-    @Override
-    public String toString() {
-        return "Sheep, position (X,Y): (" + positionX + ", " + positionY + ")";
-    }
+//    @Override
+//    public String toString() {
+//        return "Sheep, position (X,Y): (" + positionX + ", " + positionY + ")";
+//    }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class Logger {
     protected ArrayList<String> logs = new ArrayList<>();
 
+    // logs structure
     public void log(Level level, String info) {
         logs.add(level + ": " + info);
     }
@@ -22,5 +23,7 @@ public abstract class Logger {
         ATTACK,
         DEATH
     }
+
+
 }
 

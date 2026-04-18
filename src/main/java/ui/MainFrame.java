@@ -1,5 +1,7 @@
 package ui;
 
+import logger.Logger;
+import logger.LoggerGame;
 import world.World;
 
 import javax.swing.*;
@@ -12,6 +14,8 @@ public class MainFrame extends JFrame {
 
     public MainFrame(World world) {
         this.world = world;
+        Logger gameLogger = new LoggerGame(this.logArea);
+        world.setLogger(gameLogger);
 
         //window config
         setTitle("Symulator życia");
@@ -22,6 +26,7 @@ public class MainFrame extends JFrame {
         JButton nextTurnBtn = new JButton("Nowa tura");
         nextTurnBtn.addActionListener(e -> {
             world.turn();
+            world.getLogger().flush();
             refreshUI();
         });
         add(nextTurnBtn, BorderLayout.NORTH);
@@ -80,6 +85,7 @@ public class MainFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(logArea);
         sidePanel.add(new JLabel("Podsumowanie tury:"));
         sidePanel.add(scrollPane);
+
 
         return sidePanel;
     }

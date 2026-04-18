@@ -38,4 +38,9 @@ public abstract class Organism {
     public void draw(Graphics g, int x, int y, int size) {
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ", position (X,Y): (" + this.positionX + ", " + this.positionY + ")";
+    }
+
 }

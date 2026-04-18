@@ -20,9 +20,9 @@ public class Wolf extends Animal {
         g.setColor(Color.BLACK);
     }
 
-    @Override
-    public String toString() {
-        return "Wolf, position (X,Y): (" + positionX + ", " + positionY + ")";
-    }
+//    @Override
+//    public String toString() {
+//        return "Wolf, position (X,Y): (" + positionX + ", " + positionY + ")";
+//    }
 
 }
