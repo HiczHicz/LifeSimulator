@@ -1,5 +1,6 @@
 package world;
 
+import logger.Logger;
 import organism.Organism;
 
 import java.util.ArrayList;
@@ -11,13 +12,16 @@ public class World {
     private int height;
     private List<Organism> organisms = new ArrayList<>();
 
+
     public World(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
-    public void addOrganism(Organism organism) {
+    public void addOrganism(Organism organism, Logger logger) {
         organisms.add(organism);
+        logger.log(Logger.Level.INFO, "Organism succesfully added: " + organism.toString());
+
     }
 
     public Organism getOrganismAt(int x, int y) {

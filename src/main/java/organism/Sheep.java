@@ -17,4 +17,9 @@ public class Sheep extends Animal {
         g.drawString("O", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         //g.setColor(Color.BLACK);
     }
+
+    @Override
+    public String toString() {
+        return "Sheep, position (X,Y): (" + positionX + ", " + positionY + ")";
+    }
 }
