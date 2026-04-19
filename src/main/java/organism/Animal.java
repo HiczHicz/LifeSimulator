@@ -21,12 +21,7 @@ public abstract class Animal extends Organism {
         positionX += xVector;
         positionY += yVector;
 
-        if (world.getLogger() != null) {
-            world.getLogger().log(
-                    Logger.Level.MOVE,
-                    this.toString() + " moved from (" + xVector + "," + yVector + ")"
-            );
-        }
+        world.log(Logger.Level.MOVE, this.toString() + " moved from (" + (positionX - xVector) + "," + (positionY - yVector) + ") to (" + positionX + "," + positionY + ")");
 
     }
 

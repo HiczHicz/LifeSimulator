@@ -11,7 +11,8 @@ public class World {
     private int width;
     private int height;
     private List<Organism> organisms = new ArrayList<>();
-    private Logger logger;
+    private Logger fileLogger;
+    private Logger gameLogger;
     private int turnCounter = 0;
 
 
@@ -20,21 +21,33 @@ public class World {
         this.height = height;
     }
 
-    public Logger getLogger() {
-        return logger;
+    //FileLogger
+    public Logger getFileLogger() {
+        return this.fileLogger;
     }
 
-    //logger
-    public void setLogger(Logger logger) {
-        this.logger = logger;
+    public void setFileLogger(Logger logger) {
+        this.fileLogger = logger;
+    }
+
+    //GameLogger
+    public Logger getGameLogger() {
+        return this.gameLogger;
+    }
+
+    public void setGameLogger(Logger gameLogger) {
+        this.gameLogger = gameLogger;
+    }
+
+    public void log(Logger.Level level, String info) {
+        if (fileLogger != null) fileLogger.log(level, info);
+        if (gameLogger != null) gameLogger.log(level, info);
     }
 
     //handling organism
     public void addOrganism(Organism organism) {
         organisms.add(organism);
-        if (this.logger != null) {
-            this.logger.log(Logger.Level.INFO, "Organism added: " + organism.toString());
-        }
+        log(Logger.Level.INFO, "Organism added: " + organism.toString());
     }
 
     public Organism getOrganismAt(int x, int y) {
@@ -48,9 +61,7 @@ public class World {
 
     public void turn() {
         turnCounter += 1;
-        if (this.logger != null) {
-            this.logger.log(Logger.Level.INFO, "---Turn " + turnCounter + "---");
-        }
+        log(Logger.Level.INFO, "---Turn " + turnCounter + "---");
 
         for (Organism o : organisms) {
             o.action();

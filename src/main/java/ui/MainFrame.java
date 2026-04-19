@@ -1,6 +1,5 @@
 package ui;
 
-import logger.LoggerComposite;
 import logger.LoggerGame;
 import world.World;
 
@@ -19,11 +18,11 @@ public class MainFrame extends JFrame {
         this.logArea = new JTextArea(10, 20);
         this.logArea.setEditable(false);
 
-        //building UI
-        setupUI();
-
         //logger config
         setupLogger();
+
+        //building UI
+        setupUI();
 
         //window config
         setTitle("Symulator życia");
@@ -31,6 +30,11 @@ public class MainFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    //Logger setup
+    private void setupLogger() {
+        world.setGameLogger(new LoggerGame(this.logArea));
     }
 
     //UI setup - set Layout, buttons
@@ -41,9 +45,11 @@ public class MainFrame extends JFrame {
         JButton nextTurnBtn = new JButton("Nowa tura");
         nextTurnBtn.addActionListener(e -> {
             world.turn();
-            if (world.getLogger() != null) {
-                world.getLogger().flush();
-            }
+
+            //flushing logs
+            if (world.getFileLogger() != null) world.getFileLogger().flush();
+            if (world.getGameLogger() != null) world.getGameLogger().flush();
+
             refreshUI();
         });
         add(nextTurnBtn, BorderLayout.NORTH);
@@ -53,17 +59,6 @@ public class MainFrame extends JFrame {
         add(gamePanel, BorderLayout.CENTER);
 
         add(createSidePanel(), BorderLayout.EAST);
-    }
-
-    //Logger setuop
-    private void setupLogger() {
-        //checking if there is  log composite from Main class
-        if (world.getLogger() instanceof LoggerComposite composite) {
-            composite.addLogger(new LoggerGame(this.logArea));
-        } else {
-            //if no log composite in main
-            world.setLogger(new LoggerGame(this.logArea));
-        }
     }
 
     //legend setup
