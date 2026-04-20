@@ -59,12 +59,33 @@ public class World {
         return null;
     }
 
+    public void removeOrganism(Organism organism) {
+        organisms.remove(organism);
+    }
+
     public void turn() {
         turnCounter += 1;
         log(Logger.Level.INFO, "---Turn " + turnCounter + "---");
 
         for (Organism o : organisms) {
-            o.action();
+            o.increaseAge();
+        }
+
+        //sorting by initiative, then by age (descending)
+        organisms.sort((o1, o2) -> {
+            if (o1.getInitiative() != o2.getInitiative()) {
+                return Integer.compare(o2.getInitiative(), o1.getInitiative());
+            }
+            return Integer.compare(o2.getAge(), o1.getAge());
+        });
+
+        //turn
+        List<Organism> currentOrganisms = new ArrayList<>(organisms);
+        for (Organism o : currentOrganisms) {
+            //check if the organism is still in the world (it might have been removed during another organism's action)
+            if (organisms.contains(o)) {
+                o.action();
+            }
         }
     }
 

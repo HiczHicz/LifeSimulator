@@ -21,7 +21,8 @@ public abstract class Logger {
         ERROR,
         MOVE,
         ATTACK,
-        DEATH
+        DEATH,
+        BREED
     }
 
 

@@ -1,5 +1,6 @@
 package organism;
 
+import logger.Logger;
 import world.World;
 
 import java.awt.*;
@@ -12,6 +13,15 @@ public class Wolf extends Animal {
     }
 
     @Override
+    protected void breed() {
+        Point p = findFreeNeighbor();
+        if (p != null) {
+            world.addOrganism(new Wolf(p.x, p.y, world));
+            world.log(Logger.Level.BREED, "New Wolf born at (" + p.x + "," + p.y + ")");
+        }
+    }
+
+    @Override
     public void draw(Graphics g, int x, int y, int size) {
         g.setColor(Color.DARK_GRAY);
         g.fillRect(x, y, size, size);
@@ -19,10 +29,4 @@ public class Wolf extends Animal {
         g.drawString("W", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         g.setColor(Color.BLACK);
     }
-
-//    @Override
-//    public String toString() {
-//        return "Wolf, position (X,Y): (" + positionX + ", " + positionY + ")";
-//    }
-
 }

@@ -1,5 +1,6 @@
 package organism;
 
+import logger.Logger;
 import world.World;
 
 import java.awt.*;
@@ -10,6 +11,15 @@ public class Sheep extends Animal {
     }
 
     @Override
+    protected void breed() {
+        Point p = findFreeNeighbor();
+        if (p != null) {
+            world.addOrganism(new Sheep(p.x, p.y, world));
+            world.log(Logger.Level.BREED, "New Sheep born at (" + p.x + "," + p.y + ")");
+        }
+    }
+
+    @Override
     public void draw(Graphics g, int x, int y, int size) {
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(x, y, size, size);
@@ -17,9 +27,4 @@ public class Sheep extends Animal {
         g.drawString("O", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         //g.setColor(Color.BLACK);
     }
-
-//    @Override
-//    public String toString() {
-//        return "Sheep, position (X,Y): (" + positionX + ", " + positionY + ")";
-//    }
 }
