@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         //handling problems with threads
         SwingUtilities.invokeLater(() -> {
-            World world = new World(10, 10);
+            World world = new World(20, 20);
 
             LoggerFile fileLogger = new LoggerFile("system_log.txt");
             world.setFileLogger(fileLogger);

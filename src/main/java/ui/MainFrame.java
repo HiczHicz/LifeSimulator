@@ -1,5 +1,6 @@
 package ui;
 
+import logger.Logger;
 import logger.LoggerGame;
 import world.World;
 
@@ -10,6 +11,12 @@ public class MainFrame extends JFrame {
     private World world;
     private GamePanel gamePanel;
     private JTextArea logArea;
+
+    //auto mode
+    private Timer autoTimer;
+    private JSlider speedSlider;
+    private JButton autoBtn;
+    private boolean isRunning = false;
 
     public MainFrame(World world) {
         this.world = world;
@@ -40,25 +47,89 @@ public class MainFrame extends JFrame {
     //UI setup - set Layout, buttons
     private void setupUI() {
         setLayout(new BorderLayout());
+        JPanel topPanel = new JPanel();
 
         //turn button - top
         JButton nextTurnBtn = new JButton("Nowa tura");
-        nextTurnBtn.addActionListener(e -> {
-            world.turn();
+        nextTurnBtn.addActionListener(e -> executeSingleTurn());
+        topPanel.add(nextTurnBtn);
 
-            //flushing logs
-            if (world.getFileLogger() != null) world.getFileLogger().flush();
-            if (world.getGameLogger() != null) world.getGameLogger().flush();
-
-            refreshUI();
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 100, 1100, 600);
+        speedSlider.setInverted(true); //the less value, the faster the speed
+        speedSlider.addChangeListener(e -> {
+            if (autoTimer != null) {
+                autoTimer.setDelay(speedSlider.getValue());
+            }
+            //logging - only when slider is released, not while dragging
+            if (!speedSlider.getValueIsAdjusting()) {
+                world.log(Logger.Level.INFO, "Auto Mode speed changed: " + speedSlider.getValue() + "ms");
+                if (world.getFileLogger() != null) world.getFileLogger().flush();
+            }
         });
-        add(nextTurnBtn, BorderLayout.NORTH);
+        topPanel.add(new JLabel("Prędkość:"));
+        topPanel.add(speedSlider);
+
+        //auto button
+        autoBtn = new JButton("Start Auto");
+        autoBtn.addActionListener(e -> toggleAuto());
+        topPanel.add(autoBtn);
+
+        //adding both buttons
+        add(topPanel, BorderLayout.NORTH);
+
+        autoTimer = new Timer(speedSlider.getValue(), e -> executeSingleTurn());
 
         //world map
         gamePanel = new GamePanel(world);
         add(gamePanel, BorderLayout.CENTER);
 
         add(createSidePanel(), BorderLayout.EAST);
+    }
+
+    //auto
+    private void executeSingleTurn() {
+        world.turn();
+
+        //logs
+        if (world.getFileLogger() != null) world.getFileLogger().flush();
+        if (world.getGameLogger() != null) world.getGameLogger().flush();
+
+        refreshUI();
+
+        //game over - to do in the future
+//        if (checkGameOver()) {
+//            stopAuto();
+//        }
+    }
+
+    private void toggleAuto() {
+        if (isRunning) {
+            stopAuto();
+        } else {
+            startAuto();
+        }
+    }
+
+    private void startAuto() {
+        isRunning = true;
+        autoBtn.setText("Stop Auto");
+
+        //logging
+        world.log(Logger.Level.INFO, "Auto Mode on, speed: " + speedSlider.getValue() + "ms");
+        if (world.getFileLogger() != null) world.getFileLogger().flush();
+
+        autoTimer.start();
+    }
+
+    private void stopAuto() {
+        isRunning = false;
+        autoBtn.setText("Start Auto");
+
+        //logging
+        world.log(Logger.Level.INFO, "Auto Mode off");
+        if (world.getFileLogger() != null) world.getFileLogger().flush();
+
+        autoTimer.stop();
     }
 
     //legend setup
