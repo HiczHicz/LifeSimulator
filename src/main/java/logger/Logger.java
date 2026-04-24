@@ -18,11 +18,11 @@ public abstract class Logger {
 
     public enum Level {
         INFO,
-        ERROR,
         MOVE,
         ATTACK,
         DEATH,
-        BREED
+        BREED,
+        SPECIAL
     }
 
 

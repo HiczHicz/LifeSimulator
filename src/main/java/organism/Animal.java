@@ -31,7 +31,8 @@ public abstract class Animal extends Organism {
         }
     }
 
-    private Point getNewPositionToMove() {
+
+    protected Point getNewPositionToMove() {
         int xVector;
         int yVector;
         int nextX, nextY;
@@ -56,20 +57,33 @@ public abstract class Animal extends Organism {
     }
 
     protected Point findFreeNeighbor() {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) continue;
-                int nx = getPositionX() + dx;
-                int ny = getPositionY() + dy;
+        int currentX = getPositionX();
+        int currentY = getPositionY();
 
-                if (nx >= 0 && nx < world.getWidth() && ny >= 0 && ny < world.getHeight()) {
-                    if (world.getOrganismAt(nx, ny) == null) {
-                        return new Point(nx, ny);
-                    }
+        for (int offsetX = -1; offsetX <= 1; offsetX++) {
+            for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                //skip the current cell; we only want adjacent positions.
+                if (offsetX == 0 && offsetY == 0) {
+                    continue;
+                }
+
+                int candidateX = currentX + offsetX;
+                int candidateY = currentY + offsetY;
+
+                if (!isInsideWorld(candidateX, candidateY)) {
+                    continue;
+                }
+
+                if (world.getOrganismAt(candidateX, candidateY) == null) {
+                    return new Point(candidateX, candidateY);
                 }
             }
         }
         return null;
+    }
+
+    private boolean isInsideWorld(int x, int y) {
+        return x >= 0 && x < world.getWidth() && y >= 0 && y < world.getHeight();
     }
 
 
