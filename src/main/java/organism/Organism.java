@@ -21,6 +21,7 @@ public abstract class Organism {
         this.world = world;
     }
 
+
     public int getPositionX() {
         return positionX;
     }

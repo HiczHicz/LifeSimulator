@@ -16,6 +16,11 @@ public class World {
     private int turnCounter = 0;
 
 
+    public World() {
+        this.width = 5;
+        this.height = 5;
+    }
+
     public World(int width, int height) {
         this.width = width;
         this.height = height;
@@ -89,9 +94,6 @@ public class World {
         }
     }
 
-    public void drawWorld() {
-
-    }
 
     public int getWidth() {
         return this.width;

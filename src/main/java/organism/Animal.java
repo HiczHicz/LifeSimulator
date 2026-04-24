@@ -16,7 +16,7 @@ public abstract class Animal extends Organism {
         int oldY = positionY;
 
         //new position
-        Point newPos = getNewPosition();
+        Point newPos = getNewPositionToMove();
 
         Organism target = world.getOrganismAt(newPos.x, newPos.y);
 
@@ -31,7 +31,7 @@ public abstract class Animal extends Organism {
         }
     }
 
-    private Point getNewPosition() {
+    private Point getNewPositionToMove() {
         int xVector;
         int yVector;
         int nextX, nextY;
@@ -51,7 +51,9 @@ public abstract class Animal extends Organism {
         return new Point(nextX, nextY);
     }
 
-    protected abstract void breed();
+    protected void breed() {
+
+    }
 
     protected Point findFreeNeighbor() {
         for (int dx = -1; dx <= 1; dx++) {
@@ -69,6 +71,7 @@ public abstract class Animal extends Organism {
         }
         return null;
     }
+
 
     @Override
     public void action() {
@@ -97,3 +100,4 @@ public abstract class Animal extends Organism {
         }
     }
 }
+
