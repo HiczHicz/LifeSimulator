@@ -165,6 +165,8 @@ public class MainFrame extends JFrame {
         //adding organism to legends
         sidePanel.add(createLegendItem("Wilk", Color.DARK_GRAY));
         sidePanel.add(createLegendItem("Owca", Color.LIGHT_GRAY));
+        sidePanel.add(createLegendItem("Lis", Color.ORANGE));
+        sidePanel.add(createLegendItem("Żółw", Color.GREEN));
 
         sidePanel.add(new JSeparator());
 

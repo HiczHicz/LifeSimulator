@@ -26,7 +26,7 @@ public class Fox extends Animal {
             nextY = positionY + yVector;
 
             if (world.getOrganismAt(nextX, nextY) != null && world.getOrganismAt(nextX, nextY).getStrength() > this.getStrength()) {
-                world.log(Logger.Level.SPECIAL, world.getOrganismAt(positionX, positionY) + " dodged " + world.getOrganismAt(nextX, nextY));
+                world.log(Logger.Level.SPECIAL, this + " dodged " + world.getOrganismAt(nextX, nextY));
             }
 
             //loop repeats when we get (0,0) (no move) or nextX/Y is out of bounds
@@ -52,8 +52,8 @@ public class Fox extends Animal {
     public void draw(Graphics g, int x, int y, int size) {
         g.setColor(Color.ORANGE);
         g.fillRect(x, y, size, size);
-        g.setColor(Color.WHITE);
-        g.drawString("F", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         g.setColor(Color.BLACK);
+        g.drawString("F", x + size / 3, y + 2 * size / 3); // Symbol ASCII
+        //g.setColor(Color.BLACK);
     }
 }
