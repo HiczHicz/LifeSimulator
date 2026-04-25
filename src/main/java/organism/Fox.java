@@ -40,12 +40,8 @@ public class Fox extends Animal {
 
 
     @Override
-    protected void breed() {
-        Point p = findFreeNeighbor();
-        if (p != null) {
-            world.addOrganism(new Fox(p.x, p.y, world));
-            world.log(Logger.Level.BREED, "New Fox born at (" + p.x + "," + p.y + ")");
-        }
+    protected Animal createInstance(int x, int y) {
+        return new Fox(x, y, world);
     }
 
     @Override

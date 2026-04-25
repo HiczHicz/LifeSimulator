@@ -64,14 +64,9 @@ public class Turtle extends Animal {
         }
     }
 
-
     @Override
-    protected void breed() {
-        Point p = findFreeNeighbor();
-        if (p != null) {
-            world.addOrganism(new Turtle(p.x, p.y, world));
-            world.log(Logger.Level.BREED, "New Turtle born at (" + p.x + "," + p.y + ")");
-        }
+    protected Animal createInstance(int x, int y) {
+        return new Turtle(x, y, world);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package organism;
 
-import logger.Logger;
 import world.World;
 
 import java.awt.*;
@@ -55,12 +54,8 @@ public class Antilope extends Animal {
 
 
     @Override
-    protected void breed() {
-        Point p = findFreeNeighbor();
-        if (p != null) {
-            world.addOrganism(new Antilope(p.x, p.y, world));
-            world.log(Logger.Level.BREED, "New Antilope born at (" + p.x + "," + p.y + ")");
-        }
+    protected Animal createInstance(int x, int y) {
+        return new Antilope(x, y, world);
     }
 
     @Override

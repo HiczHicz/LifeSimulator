@@ -3,7 +3,12 @@ package organism;
 import world.World;
 
 public class Human extends Animal {
-    public Human(int strength, int initiative, int positionX, int positionY, World world) {
-        super(strength, initiative, positionX, positionY, world);
+    public Human(int positionX, int positionY, World world) {
+        super(5, 4, positionX, positionY, world);
+    }
+
+    @Override
+    protected Animal createInstance(int x, int y) {
+        return new Human(x, y, world);
     }
 }

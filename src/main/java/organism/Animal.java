@@ -57,8 +57,17 @@ public abstract class Animal extends Organism {
         return new Point(nextX, nextY);
     }
 
-    protected void breed() {
+    protected abstract Animal createInstance(int x, int y);
 
+
+    //design pattern factory method
+    protected void breed() {
+        Point p = findFreeNeighbor();
+        if (p != null) {
+            Animal baby = createInstance(p.x, p.y);
+            world.addOrganism(baby);
+            //world.log(Logger.Level.BREED, "New " + this.getClass().getSimpleName() + " born at (" + p.x + "," + p.y + ")");
+        }
     }
 
     protected Point findFreeNeighbor() {
