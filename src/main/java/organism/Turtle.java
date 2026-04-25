@@ -46,12 +46,12 @@ public class Turtle extends Animal {
             //fight
             world.log(Logger.Level.ATTACK, attacker + " attacks " + this);
 
-            if (attacker.getStrength() >= this.getStrength() && attacker.getStrength() < 5) {
+            if (attacker.getStrength() >= this.getStrength() && attacker.getStrength() >= 5) {
                 //attacker wins
                 world.log(Logger.Level.DEATH, this + " killed by " + attacker);
                 world.removeOrganism(this);
                 attacker.setPosition(this.positionX, this.positionY);
-            } else if (attacker.getStrength() >= 5) {
+            } else if (attacker.getStrength() < 5) {
                 //turtle dodges attacks from animal with strength >5
                 world.log(Logger.Level.SPECIAL, this + " repelled " + attacker);
                 //the attacker has to move to its previous cell - we dont set attacker position

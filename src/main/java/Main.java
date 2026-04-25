@@ -1,9 +1,8 @@
 import logger.Logger;
 import logger.LoggerFile;
-import organism.Fox;
+import organism.Antilope;
 import organism.Sheep;
 import organism.Turtle;
-import organism.Wolf;
 import ui.MainFrame;
 import world.World;
 
@@ -20,12 +19,13 @@ public class Main {
 
             world.log(Logger.Level.INFO, "World created successfully, size: " + world.getWidth() + "x" + world.getHeight());
 
-            world.addOrganism(new Wolf(1, 2, world));
-            world.addOrganism(new Wolf(5, 6, world));
+            world.addOrganism(new Antilope(1, 2, world));
+            world.addOrganism(new Antilope(5, 6, world));
             world.addOrganism(new Sheep(3, 4, world));
             world.addOrganism(new Turtle(7, 8, world));
-            world.addOrganism(new Fox(2, 2, world));
-            world.addOrganism(new Fox(4, 6, world));
+            world.addOrganism(new Turtle(2, 2, world));
+            world.addOrganism(new Antilope(4, 6, world));
+            world.addOrganism(new Antilope(5, 2, world));
 
 
             new MainFrame(world);

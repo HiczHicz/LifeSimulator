@@ -167,6 +167,7 @@ public class MainFrame extends JFrame {
         sidePanel.add(createLegendItem("Owca", Color.LIGHT_GRAY));
         sidePanel.add(createLegendItem("Lis", Color.ORANGE));
         sidePanel.add(createLegendItem("Żółw", Color.GREEN));
+        sidePanel.add(createLegendItem("Antylopa", Color.ORANGE.darker()));
 
         sidePanel.add(new JSeparator());
 

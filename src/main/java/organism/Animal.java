@@ -28,12 +28,11 @@ public abstract class Animal extends Organism {
             this.positionX = newPos.x;
             this.positionY = newPos.y;
             //log if position different (turtle logging fix)
-            if (this.positionX != oldX && this.positionY != oldY) {
+            if (this.positionX != oldX || this.positionY != oldY) {
                 world.log(Logger.Level.MOVE, this + " moved from (" + oldX + "," + oldY + ") to (" + this.positionX + "," + this.positionY + ")");
             } else {
                 world.log(Logger.Level.MOVE, this + " did not move");
             }
-
         }
     }
 
