@@ -1,5 +1,6 @@
 package organism;
 
+import logger.Logger;
 import world.World;
 
 import java.awt.*;
@@ -30,27 +31,38 @@ public class Antilope extends Animal {
         return new Point(nextX, nextY);
     }
 
-//    @Override
-//    public void collision(Organism attacker) {
-//        if (this.getClass().equals(attacker.getClass())) {
-//            //breeding
-//            this.breed();
-//        } else {
-//            //fight
-//            world.log(Logger.Level.ATTACK, attacker + " attacks " + this);
-//
-//            if (attacker.getStrength() >= this.getStrength()) {
-//                //attacker wins
-//                world.log(Logger.Level.DEATH, this + " killed by " + attacker);
-//                world.removeOrganism(this);
-//                attacker.setPosition(this.positionX, this.positionY);
-//            } else {
-//                //attacker loses
-//                world.log(Logger.Level.DEATH, attacker + " killed by " + this);
-//                world.removeOrganism(attacker);
-//            }
-//        }
-//    }
+    @Override
+    public void collision(Organism attacker) {
+        if (this.getClass().equals(attacker.getClass())) {
+            //breeding
+            this.breed();
+        } else {
+            //fight
+            world.log(Logger.Level.ATTACK, attacker + " attacks " + this);
+
+            //antilope dodges in 50% of cases
+            if (Math.random() * 101 > 50) {
+                //
+                attacker.setPosition(this.positionX, this.positionY);
+
+                Point cellToMove = this.findFreeNeighbor();
+                this.setPosition(cellToMove.x, cellToMove.y);
+
+                world.log(Logger.Level.SPECIAL, this + " dodged " + attacker + " and moved to: (" + cellToMove.x + ", " + cellToMove.y + ")");
+
+
+            } else if (attacker.getStrength() >= this.getStrength()) {
+                //attacker wins
+                world.log(Logger.Level.DEATH, this + " killed by " + attacker);
+                world.removeOrganism(this);
+                attacker.setPosition(this.positionX, this.positionY);
+            } else {
+                //attacker loses
+                world.log(Logger.Level.DEATH, attacker + " killed by " + this);
+                world.removeOrganism(attacker);
+            }
+        }
+    }
 
 
     @Override
