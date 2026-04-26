@@ -46,12 +46,11 @@ public class Fox extends Animal {
 
     @Override
     public void draw(Graphics g, int x, int y, int size) {
-        g.setColor(Color.ORANGE);
+        g.setColor(this.getColor());
         g.fillRect(x, y, size, size);
-        g.setColor(Color.BLACK);
-        g.drawString("F", x + size / 3, y + 2 * size / 3); // Symbol ASCII
-        //g.setColor(Color.BLACK);
+        drawSymbol(g, x, y, size, "F");
     }
+
 
     @Override
     public Color getColor() {

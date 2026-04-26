@@ -18,12 +18,11 @@ public class Wolf extends Animal {
 
     @Override
     public void draw(Graphics g, int x, int y, int size) {
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(this.getColor());
         g.fillRect(x, y, size, size);
-        g.setColor(Color.WHITE);
-        g.drawString("W", x + size / 3, y + 2 * size / 3); // Symbol ASCII
-        g.setColor(Color.BLACK);
+        drawSymbol(g, x, y, size, "W");
     }
+
 
     @Override
     public Color getColor() {
