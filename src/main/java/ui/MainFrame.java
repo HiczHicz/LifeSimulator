@@ -27,6 +27,10 @@ public class MainFrame extends JFrame {
     public MainFrame(World world) {
         this.world = world;
 
+        setPreferredSize(new Dimension(800, 600)); //window size
+        setMinimumSize(new Dimension(800, 600));
+        setMaximumSize(new Dimension(1200, 900));
+
         //initializing log area
         this.logArea = new JTextArea(10, 20);
         this.logArea.setEditable(false);

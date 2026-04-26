@@ -9,30 +9,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GamePanel extends JPanel {
-    private final int cellSize = 30;
     private World world;
 
     public GamePanel(World world) {
         this.world = world;
-        setPreferredSize(new Dimension(world.getWidth() * cellSize, world.getHeight() * cellSize));
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Obliczamy skalę (tak samo jak w paintComponent)
-                double cellWidth = (double) getWidth() / world.getWidth();
-                double cellHeight = (double) getHeight() / world.getHeight();
+                //calculating the scale (like in paintComponent)
+                int cellWidth = getWidth() / world.getWidth();
+                int cellHeight = getHeight() / world.getHeight();
 
-                // Wyznaczamy, w którą komórkę kliknięto
-                int x = (int) (e.getX() / cellWidth);
-                int y = (int) (e.getY() / cellHeight);
+                //deciding which cell was clicked
+                int x = e.getX() / cellWidth;
+                int y = e.getY() / cellHeight;
 
-                // Sprawdzamy zajętość pola
+                if (x >= world.getWidth() || y >= world.getHeight()) return;
+
+                //checking if the cell is occupied
                 if (world.getOrganismAt(x, y) != null) {
                     return;
                 }
 
-                // Otwieramy nowe, sprytne okienko
-                // Zakładam, że masz dostęp do MainFrame (jako rodzica)
                 MainFrame parent = (MainFrame) SwingUtilities.getWindowAncestor(GamePanel.this);
                 new AddOrganismDialog(parent, world, x, y).setVisible(true);
             }
@@ -43,18 +41,28 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //set grid&organisms
+        //calculating the size based on current panel size
+        int cellWidth = getWidth() / world.getWidth();
+        int cellHeight = getHeight() / world.getHeight();
+
+        int cellSize = Math.min(cellWidth, cellHeight);
+
         for (int y = 0; y < world.getHeight(); y++) {
             for (int x = 0; x < world.getWidth(); x++) {
+
+                // position calculated based on int
                 int px = x * cellSize;
                 int py = y * cellSize;
 
-                g.drawRect(px, py, cellSize, cellSize); //grid
+                // drawing grid
+                g.setColor(Color.LIGHT_GRAY);
+                g.drawRect(px, py, cellSize, cellSize);
 
-                //get organism
+                //getting and drawing orgasnisms
                 Organism organism = world.getOrganismAt(x, y);
                 if (organism != null) {
-                    organism.draw(g, px, py, cellSize); // drawing organism
+                    //cellsize to draw
+                    organism.draw(g, px, py, cellSize);
                 }
             }
         }
