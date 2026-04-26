@@ -78,4 +78,9 @@ public class Turtle extends Animal {
         //g.setColor(Color.BLACK);
     }
 
+    @Override
+    public Color getColor() {
+        return Color.GREEN;
+    }
+
 }

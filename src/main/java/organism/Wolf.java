@@ -24,4 +24,9 @@ public class Wolf extends Animal {
         g.drawString("W", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         g.setColor(Color.BLACK);
     }
+
+    @Override
+    public Color getColor() {
+        return Color.DARK_GRAY;
+    }
 }

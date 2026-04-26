@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
         setupUI();
 
         //window config
-        setTitle("Symulator życia");
+        setTitle("Life Symulator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
         JPanel topPanel = new JPanel();
 
         //turn button - top
-        JButton nextTurnBtn = new JButton("Nowa tura");
+        JButton nextTurnBtn = new JButton("New turn");
         nextTurnBtn.addActionListener(e -> executeSingleTurn());
         topPanel.add(nextTurnBtn);
 
@@ -66,7 +66,7 @@ public class MainFrame extends JFrame {
                 if (world.getFileLogger() != null) world.getFileLogger().flush();
             }
         });
-        topPanel.add(new JLabel("Prędkość:"));
+        topPanel.add(new JLabel("Speed:"));
         topPanel.add(speedSlider);
 
         //auto button
@@ -154,25 +154,25 @@ public class MainFrame extends JFrame {
         sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         //creator
-        sidePanel.add(new JLabel("Autor: hiczhicz"));
+        sidePanel.add(new JLabel("Author: hiczhicz"));
         sidePanel.add(new JSeparator());
 
         //legend
-        JLabel title = new JLabel("Legenda:");
+        JLabel title = new JLabel("Legend:");
         title.setFont(new Font("Arial", Font.BOLD, 14));
         sidePanel.add(title);
 
         //adding organism to legends
-        sidePanel.add(createLegendItem("Wilk", Color.DARK_GRAY));
-        sidePanel.add(createLegendItem("Owca", Color.LIGHT_GRAY));
-        sidePanel.add(createLegendItem("Lis", Color.ORANGE));
-        sidePanel.add(createLegendItem("Żółw", Color.GREEN));
-        sidePanel.add(createLegendItem("Antylopa", Color.ORANGE.darker()));
+        sidePanel.add(createLegendItem("Wolf", Color.DARK_GRAY));
+        sidePanel.add(createLegendItem("Sheep", Color.LIGHT_GRAY));
+        sidePanel.add(createLegendItem("Fox", Color.ORANGE));
+        sidePanel.add(createLegendItem("Turtle", Color.GREEN));
+        sidePanel.add(createLegendItem("Antilope", Color.ORANGE.darker()));
 
         sidePanel.add(new JSeparator());
 
         //using existing logArea
-        sidePanel.add(new JLabel("Podsumowanie tury:"));
+        sidePanel.add(new JLabel("Turn summary"));
         JScrollPane scrollPane = new JScrollPane(logArea);
         sidePanel.add(scrollPane);
 

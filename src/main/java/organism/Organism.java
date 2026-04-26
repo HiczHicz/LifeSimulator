@@ -42,6 +42,10 @@ public abstract class Organism {
         return age;
     }
 
+    public Color getColor() {
+        return null;
+    }
+
     public void setPosition(int x, int y) {
         this.positionX = x;
         this.positionY = y;

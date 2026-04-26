@@ -22,7 +22,7 @@ public abstract class Logger {
         ATTACK,
         DEATH,
         BREED,
-        SPECIAL
+        ERROR, SPECIAL
     }
 
 

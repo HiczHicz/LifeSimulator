@@ -52,4 +52,9 @@ public class Fox extends Animal {
         g.drawString("F", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         //g.setColor(Color.BLACK);
     }
+
+    @Override
+    public Color getColor() {
+        return Color.ORANGE;
+    }
 }

@@ -42,9 +42,10 @@ public class Antilope extends Animal {
 
             //antilope dodges in 50% of cases
             if (Math.random() * 101 > 50) {
-                //
+                //attacker changes its position to previous antilope position
                 attacker.setPosition(this.positionX, this.positionY);
 
+                //looking for free cell for antilope to move
                 Point cellToMove = this.findFreeNeighbor();
                 this.setPosition(cellToMove.x, cellToMove.y);
 
@@ -53,7 +54,7 @@ public class Antilope extends Animal {
 
             } else if (attacker.getStrength() >= this.getStrength()) {
                 //attacker wins
-                world.log(Logger.Level.DEATH, this + " killed by " + attacker);
+                world.log(Logger.Level.DEATH, this + " didn't dodge and was killed by " + attacker);
                 world.removeOrganism(this);
                 attacker.setPosition(this.positionX, this.positionY);
             } else {
@@ -77,6 +78,11 @@ public class Antilope extends Animal {
         g.setColor(Color.WHITE);
         g.drawString("A", x + size / 3, y + 2 * size / 3); // Symbol ASCII
         g.setColor(Color.BLACK);
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.ORANGE.darker();
     }
 
 }
