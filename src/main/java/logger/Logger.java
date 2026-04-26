@@ -14,7 +14,9 @@ public abstract class Logger {
         logs.clear();
     }
 
-    abstract public void flush();
+    public void flush() {
+
+    }
 
     public enum Level {
         INFO,
@@ -22,7 +24,8 @@ public abstract class Logger {
         ATTACK,
         DEATH,
         BREED,
-        ERROR, SPECIAL
+        ERROR,
+        SPECIAL
     }
 
 

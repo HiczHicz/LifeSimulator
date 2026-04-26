@@ -1,6 +1,7 @@
 package world;
 
 import logger.Logger;
+import logger.LoggerGame;
 import organism.Organism;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class World {
     public World(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    //getter needed for turn 0 logs
+    public List<Organism> getOrganisms() {
+        return this.organisms;
     }
 
     //FileLogger
@@ -69,6 +75,12 @@ public class World {
     }
 
     public void turn() {
+
+
+        if (gameLogger instanceof LoggerGame) {
+            ((LoggerGame) gameLogger).nextTurn();
+        }
+
         turnCounter += 1;
         log(Logger.Level.INFO, "---Turn " + turnCounter + "---");
 

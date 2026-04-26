@@ -2,6 +2,7 @@ package ui;
 
 import logger.Logger;
 import logger.LoggerGame;
+import organism.Organism;
 import world.World;
 
 import javax.swing.*;
@@ -11,6 +12,11 @@ public class MainFrame extends JFrame {
     private World world;
     private GamePanel gamePanel;
     private JTextArea logArea;
+    private int displayedTurnIndex = 0;
+    private JLabel turnLabel = new JLabel("Tura: 0");
+    private JButton prevBtn;
+    private JButton nextBtn;
+
 
     //auto mode
     private Timer autoTimer;
@@ -25,11 +31,18 @@ public class MainFrame extends JFrame {
         this.logArea = new JTextArea(10, 20);
         this.logArea.setEditable(false);
 
+        this.logArea.setLineWrap(true);      //wrapping text to next line
+        this.logArea.setWrapStyleWord(true); //making whole word go to next line if needed
+
         //logger config
         setupLogger();
 
         //building UI
         setupUI();
+
+        //turn 0 logs
+        displayedTurnIndex = 0;
+        updateLogDisplay();
 
         //window config
         setTitle("Life Symulator");
@@ -41,7 +54,12 @@ public class MainFrame extends JFrame {
 
     //Logger setup
     private void setupLogger() {
-        world.setGameLogger(new LoggerGame(this.logArea));
+        LoggerGame lg = new LoggerGame(this.logArea);
+        world.setGameLogger(lg);
+
+        for (Organism o : world.getOrganisms()) {
+            world.log(Logger.Level.INFO, "Organism added: " + o.toString());
+        }
     }
 
     //UI setup - set Layout, buttons
@@ -89,10 +107,14 @@ public class MainFrame extends JFrame {
     //auto
     private void executeSingleTurn() {
         world.turn();
+        //in game logs
+        LoggerGame lg = (LoggerGame) world.getGameLogger();
+        displayedTurnIndex = lg.getHistorySize() - 1;
+        updateLogDisplay();
 
-        //logs
+        //file logs
         if (world.getFileLogger() != null) world.getFileLogger().flush();
-        if (world.getGameLogger() != null) world.getGameLogger().flush();
+        //if (world.getGameLogger() != null) world.getGameLogger().flush();
 
         refreshUI();
 
@@ -150,12 +172,6 @@ public class MainFrame extends JFrame {
     private JPanel createSidePanel() {
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
-        sidePanel.setPreferredSize(new Dimension(250, 0));
-        sidePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        //creator
-        sidePanel.add(new JLabel("Author: hiczhicz"));
-        sidePanel.add(new JSeparator());
 
         //legend
         JLabel title = new JLabel("Legend:");
@@ -171,12 +187,49 @@ public class MainFrame extends JFrame {
 
         sidePanel.add(new JSeparator());
 
-        //using existing logArea
-        sidePanel.add(new JLabel("Turn summary"));
+        //navigation bar over the logs
+        JPanel navPanel = new JPanel(new FlowLayout());
+        prevBtn = new JButton("<");
+        nextBtn = new JButton(">");
+
+        navPanel.add(prevBtn);
+        navPanel.add(turnLabel);
+        navPanel.add(nextBtn);
+
+        sidePanel.add(navPanel);
+
+        //logarea
         JScrollPane scrollPane = new JScrollPane(logArea);
         sidePanel.add(scrollPane);
 
+        //button actions
+        prevBtn.addActionListener(e -> navigateHistory(-1));
+        nextBtn.addActionListener(e -> navigateHistory(1));
+
         return sidePanel;
+    }
+
+    private void navigateHistory(int offset) {
+        LoggerGame lg = (LoggerGame) world.getGameLogger();
+        int newIndex = displayedTurnIndex + offset;
+
+        if (newIndex >= 0 && newIndex < lg.getHistorySize()) {
+            displayedTurnIndex = newIndex;
+            updateLogDisplay();
+        }
+    }
+
+    private void updateLogDisplay() {
+        LoggerGame lg = (LoggerGame) world.getGameLogger();
+        logArea.setText(lg.getTurnLog(displayedTurnIndex));
+        turnLabel.setText("Turn: " + displayedTurnIndex);
+
+        //turning arrows on and off
+        prevBtn.setEnabled(displayedTurnIndex > 0);
+        nextBtn.setEnabled(displayedTurnIndex < lg.getHistorySize() - 1);
+
+        //automatic scrolling to the top
+        logArea.setCaretPosition(0);
     }
 
 

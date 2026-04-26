@@ -1,25 +1,39 @@
 package logger;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoggerGame extends Logger {
     private final JTextArea logArea;
+    private List<StringBuilder> turnHistory = new ArrayList<>();
+    private int currentTurn = -1;
 
     public LoggerGame(JTextArea logArea) {
         this.logArea = logArea;
+        nextTurn();
+    }
+
+    public void nextTurn() {
+        currentTurn++;
+        turnHistory.add(new StringBuilder());
     }
 
     @Override
-    public void flush() {
-        if (logArea == null) return;
-
-        for (String logger : logs) {
-            logArea.append(logger + "\n");
+    public void log(Level level, String info) {
+        if (currentTurn >= 0) {
+            turnHistory.get(currentTurn).append("[").append(level).append("] ").append(info).append("\n");
         }
+    }
 
-        //automatic scroll to the bottom
-        logArea.setCaretPosition(logArea.getDocument().getLength());
+    public String getTurnLog(int turnIndex) {
+        if (turnIndex >= 0 && turnIndex < turnHistory.size()) {
+            return turnHistory.get(turnIndex).toString();
+        }
+        return "";
+    }
 
-        clear();
+    public int getHistorySize() {
+        return turnHistory.size();
     }
 }
