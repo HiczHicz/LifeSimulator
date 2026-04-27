@@ -33,7 +33,13 @@ public class Antilope extends Animal {
 
     @Override
     public void collision(Organism attacker) {
+        if (attacker instanceof Human h && h.getAbilityDuration() > 0) {
+            world.log(Logger.Level.SPECIAL, "Holocaust is too fast! Antelope cannot escape.");
+            world.removeOrganism(this);
+            return;
+        }
         if (this.getClass().equals(attacker.getClass())) {
+
             //breeding
             this.breed();
         } else {
