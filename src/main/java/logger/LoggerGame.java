@@ -36,4 +36,13 @@ public class LoggerGame extends Logger {
     public int getHistorySize() {
         return turnHistory.size();
     }
+
+    public void clearHistory() {
+        turnHistory.clear();
+        currentTurn = -1;
+    }
+
+    public void prepareHistoryAfterLoad() {
+        nextTurn();
+    }
 }

@@ -2,11 +2,14 @@ package world;
 
 import logger.Logger;
 import logger.LoggerGame;
-import organism.Human;
-import organism.Organism;
+import organism.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class World {
 
@@ -120,5 +123,93 @@ public class World {
 
     public int getHeight() {
         return this.height;
+    }
+
+    public void saveToFile(String filename) {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+            writer.println(width + " " + height + " " + turnCounter);
+
+            //all info about organism in one line
+            for (Organism o : organisms) {
+                writer.print(o.getClass().getSimpleName() + " " + o.getPositionX() + " " +
+                        o.getPositionY() + " " + o.getStrength() + " " + o.getAge());
+
+                if (o instanceof Human h) {
+                    writer.print(" " + h.getAbilityCooldown() + " " + h.getAbilityDuration());
+                }
+
+                writer.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadFromFile(String filename) {
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            if (!scanner.hasNextInt()) return; //if file empty
+
+            organisms.clear();
+            this.width = scanner.nextInt();
+            this.height = scanner.nextInt();
+            this.turnCounter = scanner.nextInt();
+
+            if (gameLogger instanceof LoggerGame lg) {
+                lg.clearHistory(); //cleaning old history
+
+                lg.prepareHistoryAfterLoad();
+
+                // logging turn counter and opening log
+                log(Logger.Level.INFO, "--- Turn " + turnCounter + " ---");
+                log(Logger.Level.INFO, "GAME LOADED FROM FILE: " + filename);
+            }
+
+            //we read the file until there is new data - ignores empty lines
+            while (scanner.hasNext()) {
+                String type = scanner.next(); //reads name
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                int strength = scanner.nextInt();
+                int age = scanner.nextInt();
+
+                Organism o = createOrganismByType(type, x, y);
+                if (o != null) {
+                    o.setStrength(strength);
+                    o.setAge(age);
+
+                    //human has two additional variables
+                    if (o instanceof Human h) {
+                        int cooldown = scanner.nextInt();
+                        int duration = scanner.nextInt();
+                        h.setAbilityParams(cooldown, duration);
+                    }
+                    organisms.add(o);
+
+                    //logging all organism added while loading
+                    log(Logger.Level.INFO, "Organism added: " + o.toString());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("BŁĄD PODCZAS WCZYTYWANIA: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //auxilary method to create object by type
+    private Organism createOrganismByType(String type, int x, int y) {
+        return switch (type) {
+            case "Wolf" -> new Wolf(x, y, this);
+            case "Sheep" -> new Sheep(x, y, this);
+            case "Turtle" -> new Turtle(x, y, this);
+            case "Fox" -> new Fox(x, y, this);
+            case "Antilope" -> new Antilope(x, y, this);
+            case "Human" -> new Human(this);
+
+            default -> null;
+        };
+    }
+
+    public int getTurnCounter() {
+        return this.turnCounter;
     }
 }

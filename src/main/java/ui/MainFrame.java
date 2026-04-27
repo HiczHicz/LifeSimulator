@@ -9,6 +9,7 @@ import world.World;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class MainFrame extends JFrame {
     private World world;
@@ -127,6 +128,40 @@ public class MainFrame extends JFrame {
     private void setupUI() {
         setLayout(new BorderLayout());
         JPanel topPanel = new JPanel();
+
+        File savesDir = new File("saves");
+        if (!savesDir.exists()) {
+            savesDir.mkdir(); //creates folder if doesnt exist
+        }
+
+        // save button
+        JButton saveBtn = new JButton("Save");
+        saveBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(savesDir);
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text files (*.txt)", "txt"));
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                world.saveToFile(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        });
+        topPanel.add(saveBtn);
+
+
+        // load button
+        JButton loadBtn = new JButton("Load");
+        loadBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser(savesDir);
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                world.loadFromFile(fileChooser.getSelectedFile().getAbsolutePath());
+
+                LoggerGame lg = (LoggerGame) world.getGameLogger();
+                displayedTurnIndex = 0;
+
+                updateLogDisplay(); //update
+                refreshUI();
+
+            }
+        });
+        topPanel.add(loadBtn);
 
         //turn button - top
         JButton nextTurnBtn = new JButton("New turn");
@@ -290,8 +325,14 @@ public class MainFrame extends JFrame {
 
     private void updateLogDisplay() {
         LoggerGame lg = (LoggerGame) world.getGameLogger();
+
         logArea.setText(lg.getTurnLog(displayedTurnIndex));
-        turnLabel.setText("Turn: " + displayedTurnIndex);
+
+        if (displayedTurnIndex == lg.getHistorySize() - 1) {
+            turnLabel.setText("Turn: " + world.getTurnCounter());
+        } else {
+            turnLabel.setText("Turn: (History) " + displayedTurnIndex);
+        }
 
         //turning arrows on and off
         prevBtn.setEnabled(displayedTurnIndex > 0);

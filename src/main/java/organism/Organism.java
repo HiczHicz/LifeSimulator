@@ -34,12 +34,21 @@ public abstract class Organism {
         return strength;
     }
 
+    //for file saving and loading
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
     public int getInitiative() {
         return initiative;
     }
 
     public int getAge() {
         return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public abstract Color getColor();
@@ -109,5 +118,4 @@ public abstract class Organism {
 
         g.drawString(symbol, textX, textY);
     }
-
 }

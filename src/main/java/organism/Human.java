@@ -23,6 +23,11 @@ public class Human extends Animal {
         return abilityDuration;
     }
 
+    public void setAbilityParams(int cooldown, int duration) {
+        this.abilityCooldown = cooldown;
+        this.abilityDuration = duration;
+    }
+
     @Override
     protected Animal createInstance(int x, int y) {
         return new Human(world);
