@@ -42,33 +42,56 @@ public abstract class Organism {
         return age;
     }
 
-    public Color getColor() {
-        return null;
-    }
+    public abstract Color getColor();
 
     public void setPosition(int x, int y) {
         this.positionX = x;
         this.positionY = y;
     }
 
-    public void action() {
+    public abstract void action();
 
-    }
-
-    public void collision(Organism attacker) {
-
-    }
+    public abstract void collision(Organism attacker);
 
     public int increaseAge() {
         return ++age;
     }
 
-    public void draw(Graphics g, int x, int y, int size) {
-    }
+    public abstract void draw(Graphics g, int x, int y, int size);
 
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + ", position (X,Y): (" + this.positionX + ", " + this.positionY + ")";
+    }
+
+    protected Point findFreeNeighbor() {
+        int currentX = getPositionX();
+        int currentY = getPositionY();
+
+        for (int offsetX = -1; offsetX <= 1; offsetX++) {
+            for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                //skip the current cell; we only want adjacent positions.
+                if (offsetX == 0 && offsetY == 0) {
+                    continue;
+                }
+
+                int candidateX = currentX + offsetX;
+                int candidateY = currentY + offsetY;
+
+                if (!isInsideWorld(candidateX, candidateY)) {
+                    continue;
+                }
+
+                if (world.getOrganismAt(candidateX, candidateY) == null) {
+                    return new Point(candidateX, candidateY);
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isInsideWorld(int x, int y) {
+        return x >= 0 && x < world.getWidth() && y >= 0 && y < world.getHeight();
     }
 
     protected void drawSymbol(Graphics g, int x, int y, int size, String symbol) {

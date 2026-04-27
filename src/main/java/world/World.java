@@ -2,6 +2,7 @@ package world;
 
 import logger.Logger;
 import logger.LoggerGame;
+import organism.Human;
 import organism.Organism;
 
 import java.util.ArrayList;
@@ -57,6 +58,12 @@ public class World {
 
     //handling organism
     public void addOrganism(Organism organism) {
+        if (organism instanceof Human) {
+            Organism resident = getOrganismAt(0, 0);
+            if (resident != null) {
+                removeOrganism(resident); // Usuń pechowca, który tam stał
+            }
+        }
         organisms.add(organism);
         log(Logger.Level.INFO, "Organism added: " + organism.toString());
     }

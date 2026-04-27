@@ -2,11 +2,13 @@ package ui;
 
 import logger.Logger;
 import logger.LoggerGame;
+import organism.Human;
 import organism.Organism;
 import world.World;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class MainFrame extends JFrame {
     private World world;
@@ -48,12 +50,48 @@ public class MainFrame extends JFrame {
         displayedTurnIndex = 0;
         updateLogDisplay();
 
+        //key config
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getRootPane().getActionMap();
+
+        //defining directions
+        int[] keys = {KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
+        String[] names = {"moveUp", "moveDown", "moveLeft", "moveRight"};
+
+        for (int i = 0; i < keys.length; i++) {
+            final int keyCode = keys[i];
+            im.put(KeyStroke.getKeyStroke(keyCode, 0), names[i]);
+            am.put(names[i], new AbstractAction() {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    handleHumanMove(keyCode);
+                }
+            });
+        }
+
+
         //window config
         setTitle("Life Symulator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    //handling human moving
+    private void handleHumanMove(int keyCode) {
+        boolean humanFound = false;
+        for (Organism o : world.getOrganisms()) {
+            if (o instanceof Human h) {
+                h.setNextDirection(keyCode);
+                humanFound = true;
+                break;
+            }
+        }
+
+        if (humanFound) {
+            executeSingleTurn(); //executing turn right after clicking
+        }
     }
 
     //Logger setup
@@ -65,6 +103,7 @@ public class MainFrame extends JFrame {
             world.log(Logger.Level.INFO, "Organism added: " + o.toString());
         }
     }
+
 
     //UI setup - set Layout, buttons
     private void setupUI() {

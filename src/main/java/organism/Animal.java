@@ -70,36 +70,6 @@ public abstract class Animal extends Organism {
         }
     }
 
-    protected Point findFreeNeighbor() {
-        int currentX = getPositionX();
-        int currentY = getPositionY();
-
-        for (int offsetX = -1; offsetX <= 1; offsetX++) {
-            for (int offsetY = -1; offsetY <= 1; offsetY++) {
-                //skip the current cell; we only want adjacent positions.
-                if (offsetX == 0 && offsetY == 0) {
-                    continue;
-                }
-
-                int candidateX = currentX + offsetX;
-                int candidateY = currentY + offsetY;
-
-                if (!isInsideWorld(candidateX, candidateY)) {
-                    continue;
-                }
-
-                if (world.getOrganismAt(candidateX, candidateY) == null) {
-                    return new Point(candidateX, candidateY);
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean isInsideWorld(int x, int y) {
-        return x >= 0 && x < world.getWidth() && y >= 0 && y < world.getHeight();
-    }
-
 
     @Override
     public void action() {
