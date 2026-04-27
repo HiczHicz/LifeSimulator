@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
     private JLabel turnLabel = new JLabel("Tura: 0");
     private JButton prevBtn;
     private JButton nextBtn;
+    private JLabel abilityLabel;
 
 
     //auto mode
@@ -39,6 +40,8 @@ public class MainFrame extends JFrame {
 
         this.logArea.setLineWrap(true);      //wrapping text to next line
         this.logArea.setWrapStyleWord(true); //making whole word go to next line if needed
+
+        this.logArea.setFocusable(false); //blocks clicking on log area
 
         //logger config
         setupLogger();
@@ -68,6 +71,21 @@ public class MainFrame extends JFrame {
                 }
             });
         }
+
+        //defining h key for holocaust ability
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_H, 0), "activateAbility");
+        am.put("activateAbility", new AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                for (Organism o : world.getOrganisms()) {
+                    if (o instanceof Human h) {
+                        h.activateAbility();
+                        executeSingleTurn();
+                        break;
+                    }
+                }
+            }
+        });
 
 
         //window config
@@ -230,6 +248,14 @@ public class MainFrame extends JFrame {
 
         sidePanel.add(new JSeparator());
 
+        //special ability
+        abilityLabel = new JLabel("Holocaust: Ready");
+        abilityLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        abilityLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sidePanel.add(abilityLabel);
+
+        sidePanel.add(new JSeparator());
+
         //navigation bar over the logs
         JPanel navPanel = new JPanel(new FlowLayout());
         prevBtn = new JButton("<");
@@ -273,6 +299,22 @@ public class MainFrame extends JFrame {
 
         //automatic scrolling to the top
         logArea.setCaretPosition(0);
+
+        for (Organism o : world.getOrganisms()) {
+            if (o instanceof Human h) {
+                if (h.getAbilityDuration() > 0) {
+                    abilityLabel.setText("Holocaust ACTIVE: (" + h.getAbilityDuration() + ")");
+                    abilityLabel.setForeground(Color.RED);
+                } else if (h.getAbilityCooldown() > 0) {
+                    abilityLabel.setText("Reneval: " + h.getAbilityCooldown() + " turns");
+                    abilityLabel.setForeground(Color.BLACK);
+                } else {
+                    abilityLabel.setText("Holocaust: Ready (H)");
+                    abilityLabel.setForeground(new Color(0, 150, 0)); //darkgreen
+                }
+                break;
+            }
+        }
     }
 
 
