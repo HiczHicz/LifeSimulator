@@ -1,8 +1,6 @@
 import logger.Logger;
 import logger.LoggerFile;
-import organism.Antilope;
-import organism.Human;
-import organism.Wolf;
+import organism.*;
 import ui.MainFrame;
 import world.World;
 
@@ -21,12 +19,12 @@ public class Main {
 
             world.addOrganism(new Human(world));
             world.addOrganism(new Antilope(1, 2, world));
-            world.addOrganism(new Wolf(5, 6, world));
+            world.addOrganism(new WolfBerries(5, 6, world));
             world.addOrganism(new Wolf(3, 4, world));
             world.addOrganism(new Antilope(7, 8, world));
-            world.addOrganism(new Antilope(2, 2, world));
+            world.addOrganism(new Grass(2, 2, world));
             world.addOrganism(new Wolf(4, 6, world));
-            world.addOrganism(new Antilope(5, 2, world));
+            world.addOrganism(new Dandelion(5, 2, world));
 
 
             new MainFrame(world);

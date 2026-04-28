@@ -5,9 +5,9 @@ import world.World;
 import java.awt.*;
 
 public class Wolf extends Animal {
+    public static final Color STATIC_COLOR = Color.DARK_GRAY;
 
     public Wolf(int positionX, int positionY, World world) {
-        // losowanie punktów X, Y - aby ukryć logikę przed graczem, do zrobienia w przyszłości
         super(9, 5, positionX, positionY, world);
     }
 
@@ -26,6 +26,6 @@ public class Wolf extends Animal {
 
     @Override
     public Color getColor() {
-        return Color.DARK_GRAY;
+        return STATIC_COLOR;
     }
 }

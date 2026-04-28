@@ -6,6 +6,7 @@ import world.World;
 import java.awt.*;
 
 public class Fox extends Animal {
+    public static final Color STATIC_COLOR = Color.ORANGE;
 
     public Fox(int positionX, int positionY, World world) {
         super(3, 7, positionX, positionY, world);
@@ -54,6 +55,6 @@ public class Fox extends Animal {
 
     @Override
     public Color getColor() {
-        return Color.ORANGE;
+        return STATIC_COLOR;
     }
 }

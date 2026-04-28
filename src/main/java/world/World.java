@@ -190,7 +190,7 @@ public class World {
                 }
             }
         } catch (IOException e) {
-            System.out.println("BŁĄD PODCZAS WCZYTYWANIA: " + e.getMessage());
+            System.out.println("LOADING ERROR: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -204,6 +204,10 @@ public class World {
             case "Fox" -> new Fox(x, y, this);
             case "Antilope" -> new Antilope(x, y, this);
             case "Human" -> new Human(this);
+            case "Grass" -> new Grass(x, y, this);
+            case "Dandelion" -> new Dandelion(x, y, this);
+            case "Guarana" -> new Guarana(x, y, this);
+            case "WolfBerries" -> new WolfBerries(x, y, this);
 
             default -> null;
         };

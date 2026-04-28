@@ -5,6 +5,8 @@ import world.World;
 import java.awt.*;
 
 public class Sheep extends Animal {
+    public static final Color STATIC_COLOR = Color.LIGHT_GRAY;
+
     public Sheep(int positionX, int positionY, World world) {
         super(4, 4, positionX, positionY, world);
     }
@@ -24,6 +26,6 @@ public class Sheep extends Animal {
 
     @Override
     public Color getColor() {
-        return Color.LIGHT_GRAY;
+        return STATIC_COLOR;
     }
 }

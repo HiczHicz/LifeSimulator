@@ -6,6 +6,9 @@ import world.World;
 import java.awt.*;
 
 public class Turtle extends Animal {
+
+    public static final Color STATIC_COLOR = Color.GREEN;
+
     public Turtle(int positionX, int positionY, World world) {
         super(2, 1, positionX, positionY, world);
     }
@@ -78,7 +81,7 @@ public class Turtle extends Animal {
 
     @Override
     public Color getColor() {
-        return Color.GREEN;
+        return STATIC_COLOR;
     }
 
 }

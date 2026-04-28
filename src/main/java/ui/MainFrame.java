@@ -2,8 +2,7 @@ package ui;
 
 import logger.Logger;
 import logger.LoggerGame;
-import organism.Human;
-import organism.Organism;
+import organism.*;
 import world.World;
 
 import javax.swing.*;
@@ -280,6 +279,12 @@ public class MainFrame extends JFrame {
         sidePanel.add(createLegendItem("Fox", Color.ORANGE));
         sidePanel.add(createLegendItem("Turtle", Color.GREEN));
         sidePanel.add(createLegendItem("Antilope", Color.ORANGE.darker()));
+        //different solution - using getColor with static field
+        sidePanel.add(createLegendItem("Grass", Grass.STATIC_COLOR));
+        sidePanel.add(createLegendItem("Dandelion", Dandelion.STATIC_COLOR));
+        sidePanel.add(createLegendItem("Guarana", Guarana.STATIC_COLOR));
+        sidePanel.add(createLegendItem("WolfBerries", WolfBerries.STATIC_COLOR));
+
 
         sidePanel.add(new JSeparator());
 

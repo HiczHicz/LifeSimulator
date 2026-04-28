@@ -13,7 +13,7 @@ public class AddOrganismDialog extends JDialog {
     private JPanel contentPanel;
     private JComboBox<String> organismCombo;
     private String[] animals = {"Wolf", "Sheep", "Fox", "Turtle", "Antilope"};
-    private String[] plants = {"Trawa", "Mlecz", "Guarana", "Jagody"}; //CHANGE TO ENGLISH!
+    private String[] plants = {"Grass", "Dandelion", "Guarana", "WolfBerries"};
 
     public AddOrganismDialog(JFrame parent, World world, int x, int y) {
         super(parent, "Add to (" + x + "," + y + ")", true);
@@ -23,7 +23,7 @@ public class AddOrganismDialog extends JDialog {
 
         contentPanel = new JPanel(new CardLayout());
 
-        // --- EKRAN 1: Wybór kategorii ---
+        // --- SCREEN 1: choose category ---
         JPanel categoryPanel = new JPanel(new FlowLayout());
         JButton animalBtn = new JButton("Animal");
         JButton plantBtn = new JButton("Plant");
@@ -32,13 +32,13 @@ public class AddOrganismDialog extends JDialog {
         categoryPanel.add(animalBtn);
         categoryPanel.add(plantBtn);
 
-        // --- EKRAN 2: Wybór gatunku ---
+        // --- SCREEN 2: choose organism ---
         JPanel selectionPanel = new JPanel(new FlowLayout());
         organismCombo = new JComboBox<>();
         JButton confirmBtn = new JButton("Add");
 
 
-        //  PRZYCISK: Cofnij
+        // back button
         JButton backBtn = new JButton("Back");
 
         selectionPanel.add(organismCombo);
@@ -48,15 +48,15 @@ public class AddOrganismDialog extends JDialog {
         contentPanel.add(categoryPanel, "CATEGORY");
         contentPanel.add(selectionPanel, "SELECTION");
 
-        // Logika przycisków
+        //button logic
         animalBtn.addActionListener(e -> showSelection(animals));
         plantBtn.addActionListener(e -> showSelection(plants));
 
-        // LOGIKA PRZYCISKU COFNIJ
+        //back button logic
         backBtn.addActionListener(e -> {
             CardLayout cl = (CardLayout) contentPanel.getLayout();
             cl.show(contentPanel, "CATEGORY");
-            pack(); // Ponowne dopasowanie rozmiaru okna
+            pack(); //ajdusting size
         });
 
         confirmBtn.addActionListener(e -> {
@@ -74,7 +74,7 @@ public class AddOrganismDialog extends JDialog {
         organismCombo.setModel(new DefaultComboBoxModel<>(list));
         CardLayout cl = (CardLayout) contentPanel.getLayout();
         cl.show(contentPanel, "SELECTION");
-        pack(); // Dopasuj rozmiar do nowej zawartości
+        pack(); //adjusting size
     }
 
     private void addOrganism(String type) {
@@ -84,6 +84,11 @@ public class AddOrganismDialog extends JDialog {
             case "Fox" -> new Fox(targetX, targetY, world);
             case "Turtle" -> new Turtle(targetX, targetY, world);
             case "Antilope" -> new Antilope(targetX, targetY, world);
+            case "Grass" -> new Grass(targetX, targetY, world);
+            case "Dandelion" -> new Dandelion(targetX, targetY, world);
+            case "Guarana" -> new Guarana(targetX, targetY, world);
+            case "WolfBerries" -> new WolfBerries(targetX, targetY, world);
+
 
             default -> null;
         };

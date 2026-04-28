@@ -6,6 +6,8 @@ import world.World;
 import java.awt.*;
 
 public class Antilope extends Animal {
+    public static final Color STATIC_COLOR = Color.ORANGE.darker();
+
     public Antilope(int positionX, int positionY, World world) {
         super(4, 4, positionX, positionY, world);
     }
@@ -87,7 +89,7 @@ public class Antilope extends Animal {
 
     @Override
     public Color getColor() {
-        return Color.ORANGE.darker();
+        return STATIC_COLOR;
     }
 
 }
