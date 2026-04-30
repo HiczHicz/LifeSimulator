@@ -8,20 +8,13 @@ public class WolfBerries extends Plant {
     public static final Color STATIC_COLOR = new Color(75, 0, 130, 120);
 
     public WolfBerries(int x, int y, World world) {
-        // Wilcze jagody mają zazwyczaj wysoką siłę (np. 99),
-        // aby podkreślić ich zabójczy charakter w silniku gry
         super(99, x, y, world);
     }
 
     @Override
     public void collision(Organism attacker) {
-        // 1. LOGUJEMY ŚMIERĆ NAPASTNIKA
         world.log(logger.Logger.Level.DEATH, attacker + " ate WolfBerries and died instantly!");
-
-        // 2. USUWAMY NAPASTNIKA (zwierzę ginie)
         world.removeOrganism(attacker);
-
-        // 3. USUWAMY RÓWNIEŻ TĘ ROŚLINĘ (została zjedzona)
         world.removeOrganism(this);
     }
 
@@ -32,7 +25,6 @@ public class WolfBerries extends Plant {
 
     @Override
     public void draw(Graphics g, int x, int y, int size) {
-        // 1. RYSOWANIE PRZEZROCZYSTEGO TŁA
         g.setColor(this.getColor());
         g.fillRect(x, y, size, size);
 
